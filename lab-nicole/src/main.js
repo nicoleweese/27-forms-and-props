@@ -69,7 +69,7 @@ class SearchResultList extends React.Component {
       <div>
         <ul>
           {limitedResults.map((item, i) => {
-            return <li key={i}><a href={item.url}>{item.title}<p>{item.ups}</p></a></li>;
+            return <li key={i}><a href={item.url}>{item.title}<p>ups: {item.ups}</p></a></li>;
           })}
         </ul>
       </div>
@@ -120,6 +120,7 @@ class App extends React.Component {
                     url: x.data.url,
                     ups: x.data.ups};
           });
+
           let infoObj = { [board]: info };
           console.log(infoObj);
           let concat = Object.assign({}, infoObj, this.state.topics);
@@ -143,7 +144,7 @@ class App extends React.Component {
   render() {
     return (
       <main>
-        <h1>Reddit Board Search</h1>
+        <h1 className='header'>Reddit Board Search</h1>
         <SearchForm retreiveBoard={this.retreiveBoard} error={this.state.boardError} />
 
         { this.state.boardError ?
