@@ -23,6 +23,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
     "superagent": "^3.8.2",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.2"

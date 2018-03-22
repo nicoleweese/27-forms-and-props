@@ -1,6 +1,6 @@
 'use strict';
 
-const HtmlPlugin = require('html-webpack-plugin');
+const HTMLPlugin = require('html-webpack-plugin');
 const ExtractPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
@@ -9,10 +9,10 @@ module.exports = {
   output: {
     path: `${__dirname}/build`,
     publicPath: '/',
-    filename: 'bundle-[hash].js'
+    filename: 'bundle-[hash].js',
   },
   plugins: [
-    new HtmlPlugin({ template: `${__dirname}/src/index.html`}),
+    new HTMLPlugin({ template: `${__dirname}/src/index.html`}),
     new ExtractPlugin('bundle-[hash].css')
   ],
   module: {
@@ -20,8 +20,15 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
-      }
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.scss$/,
+        loader : 'style-loader!css-loader!sass-loader',
+      },
     ]
+  },
+  devServer: {
+    historyApiFallback: true,
   }
 }

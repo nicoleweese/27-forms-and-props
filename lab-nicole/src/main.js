@@ -1,5 +1,6 @@
 'use strict';
 
+import './style/main.scss';
 import React from 'react';
 import ReactDom from 'react-dom';
 import superagent from 'superagent';
@@ -33,7 +34,7 @@ class SearchForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className={this.props.error ? 'error' : null}>
         <input
           type='text'
           placeholder='search for a reddit board'
@@ -43,6 +44,8 @@ class SearchForm extends React.Component {
         <input
           type='number'
           placeholder='number of results desired'
+          min='0'
+          max='100'
           value={this.state.queryLimit}
           onChange={this.handleNumberChange}
         />
@@ -54,13 +57,21 @@ class SearchForm extends React.Component {
 
 class SearchResultList extends React.Component {
   constructor(props) {
-    super();
+    super(props);    
   }
+  
 
   render() {
+    let limitedResults = this.props.results.slice(0, this.props.limit);
+    console.log(limitedResults);
+
     return(
       <div>
-        <p> {this.props.results} </p>
+        <ul>
+          {limitedResults.map((item, i) => {
+            return <li key={i}><a href={item.url}>{item.title}<p>{item.ups}</p></a></li>;
+          })}
+        </ul>
       </div>
     )
   }
@@ -104,7 +115,11 @@ class App extends React.Component {
             return this.setState({boardError: true, boardSelected: null});
           }
           
-          let info = res.body.data.children.map( x => x.data.title );
+          let info = res.body.data.children.map( x => {
+            return {title: x.data.title,
+                    url: x.data.url,
+                    ups: x.data.ups};
+          });
           let infoObj = { [board]: info };
           console.log(infoObj);
           let concat = Object.assign({}, infoObj, this.state.topics);
@@ -117,7 +132,9 @@ class App extends React.Component {
             console.error(err);
           }
         })
-        .catch(err => console.error(err));
+        .catch(()=> {
+          return this.setState({boardError: true, boardSelected: null}); 
+        });
     } else {
       this.setState({ boardSelected: board, boardError: false });
     }
@@ -127,7 +144,7 @@ class App extends React.Component {
     return (
       <main>
         <h1>Reddit Board Search</h1>
-        <SearchForm retreiveBoard={this.retreiveBoard} />
+        <SearchForm retreiveBoard={this.retreiveBoard} error={this.state.boardError} />
 
         { this.state.boardError ?
           <div>
@@ -138,7 +155,7 @@ class App extends React.Component {
             <div>
               <h3>Board Selected</h3>
               <h4>{this.state.boardSelected}</h4>
-              <SearchResultList results={this.state.topics[this.state.boardSelected]} />
+              <SearchResultList results={this.state.topics[this.state.boardSelected]} limit={this.state.limit} />
             </div>
             :
             <div>
