@@ -28,7 +28,6 @@ class SearchForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('submitted');
     this.props.retreiveBoard(this.state.redditBoard, this.state.queryLimit);
   }
 
@@ -63,7 +62,6 @@ class SearchResultList extends React.Component {
 
   render() {
     let limitedResults = this.props.results.slice(0, this.props.limit);
-    console.log(limitedResults);
 
     return(
       <div>
@@ -122,9 +120,7 @@ class App extends React.Component {
           });
 
           let infoObj = { [board]: info };
-          console.log(infoObj);
           let concat = Object.assign({}, infoObj, this.state.topics);
-          console.log('concattttt', concat);
           
           try {
             this.setState({ topics: concat, boardSelected: board, boardError: false });

@@ -5,3 +5,5 @@ This application is a reddit search form. The user will enter the page and be ab
 In order to run this application, first you must ```npm i``` in your terminal to download all the application's dependencies. This application uses babel-core, babel-loader, babel-preset-env, babel-preset-react, css-loader, eslint, extract-text-webpack-plugin, html-webpack-plugin, node-sass, react, react-dom, sass-loader, style-loader, superagent, webpack, and webpack-dev-server.
 
 Once the application is running in your terminal, you can either run ```npm run build``` or ```npm run watch``` from your terminal. ```npm run build``` will construct the files required for the site and save them to your file system, whereas ```npm run watch``` will allow you to run the site without downloading any files to your computer. 
+
+The full site can be enjoyed from ```http://localhost:8080```. Have fun!
